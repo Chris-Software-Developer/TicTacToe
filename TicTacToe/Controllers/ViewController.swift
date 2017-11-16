@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     
     var player = 1
     var gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -18,14 +18,14 @@ class ViewController: UIViewController {
     
     let winning = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
     
-    // MARK: - IBOutlets
+    // MARK: IBOutlets
     
     @IBOutlet weak var playAgainButton: UIButton!
     @IBOutlet weak var winningLabel: UILabel!
     
     // MARK: - IBActions
     
-    @IBAction func buttonPushed(_ sender: AnyObject) {
+    @IBAction func buttonPushed(_ sender: UIButton) {
         
         if gameState[sender.tag-1] == 0 && gameIsActive == true {
             gameState[sender.tag-1] = player

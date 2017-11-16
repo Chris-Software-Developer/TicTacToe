@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     // MARK: Properties
     
     var player = 1
-    var gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    var buttonStates = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     var gameIsActive = true
     
     let winning = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
@@ -27,9 +27,25 @@ class ViewController: UIViewController {
     
     @IBAction func buttonPushed(_ sender: UIButton) {
         
-        if self.gameState[sender.tag - 1] == 0 && self.gameIsActive == true {
+        self.handleButtonUpdates(sender)
+        
+        self.checkForWinningCombo()
+        
+        self.checkForDraw()
+    }
+    
+    @IBAction func playAgainPushed(_ sender: Any) {
+        
+        self.resetBoard()
+    }
+    
+    // MARK: - Convenience Methods
+    
+    private func handleButtonUpdates(_ sender: UIButton) {
+        
+        if self.buttonStates[sender.tag - 1] == 0 && self.gameIsActive == true {
             
-            self.gameState[sender.tag - 1] = self.player
+            self.buttonStates[sender.tag - 1] = self.player
             
             if self.player == 1 {
                 sender.setImage(UIImage(named: "ticTacToeX.png"), for: .normal)
@@ -40,6 +56,9 @@ class ViewController: UIViewController {
                 self.player = 1
             }
         }
+    }
+    
+    private func checkForWinningCombo() {
         
         for combo in self.winning {
             
@@ -47,9 +66,9 @@ class ViewController: UIViewController {
             let secondTag = combo[1]
             let thirdTag = combo[2]
             
-            let firstButtonState = self.gameState[firstTag]
-            let secondButtonState = self.gameState[secondTag]
-            let thirdButtonState = self.gameState[thirdTag]
+            let firstButtonState = self.buttonStates[firstTag]
+            let secondButtonState = self.buttonStates[secondTag]
+            let thirdButtonState = self.buttonStates[thirdTag]
             
             let firstButtonPressed = firstButtonState != 0
             
@@ -70,12 +89,16 @@ class ViewController: UIViewController {
                 self.winningLabel.isHidden = false
             }
         }
+    }
+    
+    private func checkForDraw() {
         
+        // This will be set to true if any button has not been pressed.
         self.gameIsActive = false
         
-        for i in self.gameState {
+        for state in self.buttonStates {
             
-            if i == 0 {
+            if state == 0 {
                 self.gameIsActive = true
                 break
             }
@@ -88,9 +111,9 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func playAgainPushed(_ sender: Any) {
+    private func resetBoard() {
         
-        gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        buttonStates = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         gameIsActive = true
         player = 1
         

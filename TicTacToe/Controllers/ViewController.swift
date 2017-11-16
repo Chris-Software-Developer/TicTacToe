@@ -27,49 +27,64 @@ class ViewController: UIViewController {
     
     @IBAction func buttonPushed(_ sender: UIButton) {
         
-        if gameState[sender.tag-1] == 0 && gameIsActive == true {
-            gameState[sender.tag-1] = player
+        if self.gameState[sender.tag - 1] == 0 && self.gameIsActive == true {
             
-            if player == 1 {
-                sender.setImage(UIImage(named: "ticTacToeX.png"), for: UIControlState())
-                player = 2
+            self.gameState[sender.tag - 1] = self.player
+            
+            if self.player == 1 {
+                sender.setImage(UIImage(named: "ticTacToeX.png"), for: .normal)
+                self.player = 2
             }
             else {
-                sender.setImage(UIImage(named: "ticTacToeO.png"), for: UIControlState())
-                player = 1
+                sender.setImage(UIImage(named: "ticTacToeO.png"), for: .normal)
+                self.player = 1
             }
         }
         
-        for combo in winning {
-            if gameState[combo[0]] != 0 && gameState[combo[0]] == gameState[combo[1]] && gameState[combo[1]] == gameState[combo[2]] {
+        for combo in self.winning {
+            
+            let firstTag = combo[0]
+            let secondTag = combo[1]
+            let thirdTag = combo[2]
+            
+            let firstButtonState = self.gameState[firstTag]
+            let secondButtonState = self.gameState[secondTag]
+            let thirdButtonState = self.gameState[thirdTag]
+            
+            let firstButtonPressed = firstButtonState != 0
+            
+            let firstAndSecondButtonStatesMatch = firstButtonState == secondButtonState
+            let secondAndThirdButtonStatesMatch = secondButtonState == thirdButtonState
+            
+            if firstButtonPressed && firstAndSecondButtonStatesMatch && secondAndThirdButtonStatesMatch {
                 
-                gameIsActive = false
+                self.gameIsActive = false
                 
-                if gameState[combo[0]] == 1 {
-                    winningLabel.text = "X has won!"
+                if firstButtonState == 1 {
+                    self.winningLabel.text = "X has won!"
+                } else {
+                    self.winningLabel.text = "O has won!"
                 }
-                else {
-                    winningLabel.text = "O has won!"
-                }
                 
-                playAgainButton.isHidden = false
-                winningLabel.isHidden = false
+                self.playAgainButton.isHidden = false
+                self.winningLabel.isHidden = false
             }
         }
         
-        gameIsActive = false
+        self.gameIsActive = false
         
-        for i in gameState {
+        for i in self.gameState {
+            
             if i == 0 {
-                gameIsActive = true
+                self.gameIsActive = true
                 break
             }
         }
         
-        if gameIsActive == false {
-            winningLabel.text = "It was a draw!"
-            winningLabel.isHidden = false
-            playAgainButton.isHidden = false
+        if self.gameIsActive == false {
+            self.winningLabel.text = "It was a draw!"
+            self.winningLabel.isHidden = false
+            self.playAgainButton.isHidden = false
         }
     }
     
@@ -79,12 +94,12 @@ class ViewController: UIViewController {
         gameIsActive = true
         player = 1
         
-        playAgainButton.isHidden = true
-        winningLabel.isHidden = true
+        self.playAgainButton.isHidden = true
+        self.winningLabel.isHidden = true
         
         for n in 1...9 {
             let button = view.viewWithTag(n) as! UIButton
-            button.setImage(nil, for: UIControlState())
+            button.setImage(nil, for: .normal)
         }
     }
 }

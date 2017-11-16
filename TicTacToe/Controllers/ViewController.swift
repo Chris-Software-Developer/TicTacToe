@@ -22,24 +22,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var playAgainButton: UIButton!
     @IBOutlet weak var winningLabel: UILabel!
-    @IBOutlet weak var containingView: UIView!
     
     // MARK: - IBActions
-    
-    @IBAction func playAgainPushed(_ sender: Any) {
-        
-        gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        gameIsActive = true
-        player = 1
-        
-        playAgainButton.isHidden = true
-        winningLabel.isHidden = true
-        
-        for n in 1...9 {
-            let button = view.viewWithTag(n) as! UIButton
-            button.setImage(nil, for: UIControlState())
-        }
-    }
     
     @IBAction func buttonPushed(_ sender: AnyObject) {
         
@@ -87,5 +71,20 @@ class ViewController: UIViewController {
             winningLabel.isHidden = false
             playAgainButton.isHidden = false
         }
-    }  
+    }
+    
+    @IBAction func playAgainPushed(_ sender: Any) {
+        
+        gameState = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        gameIsActive = true
+        player = 1
+        
+        playAgainButton.isHidden = true
+        winningLabel.isHidden = true
+        
+        for n in 1...9 {
+            let button = view.viewWithTag(n) as! UIButton
+            button.setImage(nil, for: UIControlState())
+        }
+    }
 }
